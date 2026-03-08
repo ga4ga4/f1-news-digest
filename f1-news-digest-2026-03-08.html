@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F1 最新ニュースダイジェスト — 2026年3月8日</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --bg-card-alt: #1c2333;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --accent-red: #e5383b;
+    --accent-yellow: #f0c040;
+    --accent-green: #3fb950;
+    --accent-blue: #58a6ff;
+    --accent-orange: #f78166;
+    --border: #30363d;
+    --jp-accent: #ff4057;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+  a { color: var(--accent-blue); text-decoration: none; transition: opacity .2s; }
+  a:hover { opacity: .8; text-decoration: underline; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 40px 0 30px;
+    border-bottom: 2px solid var(--accent-red);
+    margin-bottom: 32px;
+  }
+  .header h1 {
+    font-size: 2em;
+    font-weight: 800;
+    letter-spacing: .02em;
+  }
+  .header h1 .emoji { font-size: 1.1em; }
+  .header .date {
+    color: var(--text-dim);
+    font-size: .95em;
+    margin-top: 6px;
+  }
+
+  /* Section titles */
+  .section-title {
+    font-size: 1.35em;
+    font-weight: 700;
+    margin: 40px 0 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .icon { font-size: 1.15em; }
+
+  /* Highlight box */
+  .highlight-box {
+    background: var(--bg-card);
+    border-left: 4px solid var(--accent-red);
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .highlight-box li {
+    margin-bottom: 10px;
+    list-style: none;
+    padding-left: 0;
+  }
+  .highlight-box li::before {
+    content: '▸ ';
+    color: var(--accent-red);
+    font-weight: bold;
+  }
+  .highlight-box li strong { color: var(--accent-yellow); }
+
+  /* News card */
+  .news-card {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    transition: border-color .2s;
+  }
+  .news-card:hover { border-color: var(--accent-blue); }
+  .news-card h3 {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    color: #fff;
+  }
+  .news-card .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: .85em;
+    color: var(--text-dim);
+  }
+  .news-card .meta .source a { color: var(--accent-blue); }
+  .stars { color: var(--accent-yellow); letter-spacing: 1px; }
+  .news-card .summary { margin-bottom: 8px; font-size: .95em; }
+  .news-card .reaction {
+    font-size: .88em;
+    color: var(--text-dim);
+    padding-left: 12px;
+    border-left: 2px solid var(--accent-orange);
+    margin-top: 8px;
+  }
+
+  /* Voice section */
+  .voice-card {
+    background: var(--bg-card-alt);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 14px;
+    border-left: 3px solid var(--accent-yellow);
+  }
+  .voice-card .speaker {
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+    font-size: .95em;
+  }
+  .voice-card .quote {
+    font-style: italic;
+    color: var(--text);
+    font-size: .92em;
+    margin-bottom: 4px;
+    padding-left: 8px;
+  }
+  .voice-card .quote::before { content: '「'; color: var(--accent-yellow); }
+  .voice-card .quote::after { content: '」'; color: var(--accent-yellow); }
+  .voice-card .via {
+    font-size: .8em;
+    color: var(--text-dim);
+    text-align: right;
+    margin-top: 6px;
+  }
+
+  /* Japan section */
+  .jp-section { border-left: 4px solid var(--jp-accent); }
+  .jp-card {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .jp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, transparent 50%, rgba(255,64,87,.08) 50%);
+    border-radius: 0 8px 0 0;
+  }
+  .jp-card h3 {
+    font-size: 1.05em;
+    margin-bottom: 10px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Deep dive */
+  .deep-dive {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 20px 24px;
+    border: 1px dashed var(--accent-blue);
+  }
+  .deep-dive ol {
+    padding-left: 20px;
+    counter-reset: deep;
+  }
+  .deep-dive li {
+    margin-bottom: 8px;
+    font-size: .93em;
+    list-style: none;
+    counter-increment: deep;
+  }
+  .deep-dive li::before {
+    content: counter(deep) '. ';
+    color: var(--accent-blue);
+    font-weight: 700;
+  }
+
+  /* Trust table */
+  .trust-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .88em;
+    margin-top: 12px;
+  }
+  .trust-table th, .trust-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    text-align: left;
+  }
+  .trust-table th {
+    background: var(--bg-card);
+    color: var(--accent-yellow);
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: .8em;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    body { padding: 12px 10px 40px; }
+    .header h1 { font-size: 1.5em; }
+    .section-title { font-size: 1.15em; }
+    .news-card, .voice-card, .jp-card { padding: 16px; }
+  }
+
+  /* Nav */
+  .toc {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 16px 22px;
+    margin-bottom: 28px;
+    border: 1px solid var(--border);
+  }
+  .toc-title { font-weight: 700; margin-bottom: 8px; font-size: .9em; color: var(--text-dim); }
+  .toc a {
+    display: inline-block;
+    background: var(--bg-card-alt);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: .82em;
+    margin: 3px 4px;
+    border: 1px solid var(--border);
+    transition: all .2s;
+  }
+  .toc a:hover { background: var(--accent-red); color: #fff; border-color: var(--accent-red); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span class="emoji">🏎️</span> F1 最新ニュースダイジェスト</h1>
+  <div class="date">2026年3月8日（日）— オーストラリアGP 決�]日</div>
+</div>
+
+<div class="toc">
+  <div class="toc-title">📑 セクション</div>
+  <a href="#highlights">ハイライト</a>
+  <a href="#news">主要ニュース</a>
+  <a href="#voices">ピットレーンボイス</a>
+  <a href="#japan">🇯🇵 日本関連</a>
+  <a href="#deepdive">深掘りポイント</a>
+  <a href="#trust">信頼性について</a>
+</div>
+
+<!-- ==================== HIGHLIGHTS ==================== -->
+<div class="section-title" id="highlights"><span class="icon">📋</span> 本日のハイライト</div>
+<div class="highlight-box">
+  <ul>
+    <li><strong>メルセデス圧巻のフロントロー独占</strong> — ラッセルがポールポジション、アントネッリと1-2。新時代の最初の予選で圧倒的な怟さを見せた。</li>
+    <li><strong>フェルスタッペンQ1でクラッシュ脱落</strong> — 4度のワールドチャンピオンがターン1でグラベルへ。新レギュレーションへの不満も噴出。</li>
+    <li><strong>アストンマーティン＆ホンダ深刻な振動問題</strong> — エンジンの振動がドライバーの神経に永続的ダメージの恐れ。アロンソは連続25周が限界と警告。</li>
+  </ul>
+</div>
+
+<!-- ==================== NEWS ==================== -->
+<div class="section-title" id="news"><span class="icon">📰</span> 主要ニュース</div>
+
+<div class="news-card">
+  <h3>1. ラッセルがポールポジション獲得 — メルセデスがフロントロー独占</h3>
+  <div class="meta">
+    <span class="source">📌 <a href="https://www.formula1.com/en/latest/article/russell-storms-to-pole-position-for-the-season-opening-australian-gp-as.59kj0cIRcQVqXUSKPp5KzG" target="_blank">Formula1.com</a></span>
+    <span class="stars">★★★★★</span>
+  </div>
+  <div class="summary">ジョージ・ラッセルが1分18秒518の最速タイムでポールポジションを獲得。チームメイトのキミ・アントネッリが2番手に入り、メルセデスがフロントローを独占した。3番手にはレッドブルに昇格したイサック・アダールが入り、デビュー戦で見事な走りを見せた。</div>
+  <div class="reaction">🗣 ルクレールは「メルセデスはついに本気を見せた」とコメント。専門家はエンジン抜け穴問題との関連を指摘。</div>
+</div>
+
+<div class="news-card">
+  <h3>2. フェルスタッペン、Q1でまさかのクラッシュ — 新型車への強い不満</h3>
+  <div class="meta">
+    <span class="source">📌 <a href="https://www.the-race.com/formula-1/anti-racing-max-verstappen-scathing-f1-2026-car-review/" target="_blank">The Race</a> / <a href="https://www.motorsport.com/f1/news/max-verstappen-feeling-completely-empty-about-f1-2026-cars/10803089/" target="_blank">Motorsport.com</a></span>
+    <span class="stars">★★★★☆</span>
+  </div>
+  <div class="summary">フェルスタッペンがQ1でターン1のブレーキングでリアアクスルをロックさせ、グラベルを経てバリアに衝突。2026年型車を「アンチレーシング」「フォーミュラEのステロイド版」と酷評しており、予選後も「完全に空惼な気持ち」と語った。</div>
+  <div class="reaction">🗣 <a href="https://www.espn.com/f1/story/_/id/47909219/max-verstappen-slams-new-f1-2026-cars-formula-e-steroids-red-bull" target="_blank">ESPN</a>は「新時代のF1は既に大きな失敗に見える」との論説を掲載。NASCARベテランからも揶揄のコメント。</div>
+</div>
+
+<div class="news-card">
+  <h3>3. メルセデスエンジンの「抜け穴」問題 — 圧縮比をめぐる論争</h3>
+  <div class="meta">
+    <span class="source">📌 <a href="https://www.motorsport.com/f1/news/mercedes-red-bull-and-the-2026-engines-whats-behind-the-recent-fuss-in-f1/10786380/" target="_blank">Motorsport.com</a> / <a href="https://www.skysports.com/f1/news/12433/13515935/australian-gp-charles-leclerc-claims-mercedes-are-finally-showing-their-hand-after-very-impressive-friday-in-melbourne" target="_blank">Sky Sports</a></span>
+    <span class="stars">★★★★☆</span>
+  </div>
+  <div class="summary">メルセデスとレッドブル・パワートレインズが圧縮比規定の「抜け穴」を見出し大きな論争に。推定0.3〜0.4秒/周のアドバンテージの可能性。FIAは8月1日から130℃運転温度での適用義務化を提案。</div>
+  <div class="reaction">🗣 ハミルトンは「メルセデスの優位性がこの抜け穴によるものなら<a href="https://www.motorsport.com/f1/news/lewis-hamilton-disappointed-in-fia-if-mercedes-supremacy-is-down-to-f1-engine-loophole/10803010/" target="_blank">FIAに失望する</a>」。<a href="https://www.the-race.com/formula-1/everything-we-learned-about-impact-of-f1-2026s-loophole-controversy/" target="_blank">The Race</a>は「ライバルに2027年まで希望はないのか」と分析。</div>
+</div>
+
+<div class="news-card">
+  <h3>4. アストンマーティン＆ホンダ — 深刻な振動問題でドライバーの安全に懵念</h3>
+  <div class="meta">
+    <span class="source">📌 <a href="https://www.formula1.com/en/latest/article/what-aston-martin-has-identified-as-its-chief-problem.6dbKgdz0DUMIuYgyTuk5KK" target="_blank">Formula1.com</a> / <a href="https://www.skysports.com/f1/news/12433/13515167/aston-martin-chief-adrian-newey-says-honda-engine-vibration-issue-could-cause-teams-cars-to-retire-from-australian-gp" target="_blank">Sky Sports</a> / <a href="https://www.espn.com/f1/story/_/id/48122433/how-honda-issues-left-aston-martin-crisis-fernando-alonso-adrian-newey-stroll-australian-grand-prix-2026" target="_blank">ESPN</a></span>
+    <span class="stars">★★★★★</span>
+  </div>
+  <div class="summary">ホンダ製PUに深刻な振動問題。バッテリーに損傷を与え、走行距離を大幅に制限。アロンソは連続25周以上で永継的な神経損傷のリスクを報告。ストロールは15周が限界。ニューウォイは「ミラーが振動で脱落する」と認める。</div>
+  <div class="reaction">🗣 NBC Newsも安全面の問題として報道。専門家はホンダの2026年PU開発の遅れを指摘。</div>
+</div>
+
+<div class="news-card">
+  <h3>5. キャデラック、F1デビュー — Q1全車脱落もチームは前向き</h3>
+  <div class="meta">
+    <span class="source">📌 <a href="https://www.motorsport.com/f1/news/cadillacs-main-weakness-revealed-after-double-q1-exit-on-f1-debut/10803065/" target="_blank">Motorsport.com</a></span>
+    <span class="stars">★★★★★</span>
+  </div>
+  <div class="summary">11番目のチームとして参戦するキャデラック。ペレスとボッタスは予選18位・19位、トップから約4秒差。しかし他チームの重大トラブルの中、安定走行できたこと自体がデビュー戦の収穫。</div>
+  <div class="reaction">🗣 代表ロードンは「レースに出ること、モメンタムを築くこと」を最優先目標と語る。2016年ハース以来の新規参入。</div>
+</div>
+
+<div class="news-card">
+  <h3>6. 2026年レギュレーション大改革 — F1史上最大の技術変更</h3>
+  <div class="meta">
+    <span class="source">📌 <a href="https://www.formula1.com/en/latest/article/from-smaller-cars-to-a-bigger-budget-cap-12-rule-changes-you-need-to-know-in.56uUTFhB0z5j3iZfhC0rGP" target="_blank">Formula1.com</a> / <a href="https://www.fia.com/F126" target="_blank">FIA</a></span>
+    <span class="stars">★★★★★</span>
+  </div>
+  <div class="summary">ICEとERSが50:50の出力比率に。MGU-H廃止、MGU-K出力は160bhp→470bhpに大幅増。アクティブエアロ導入でDRS廃止。ダウンフォース30%減・ドラッグ55%減目標。車体200mm短縮・軽量化。持続可能燃料義務化。</div>
+  <div class="reaction">🗣 ドライバーからはエネルギーマネジメントの複雑さへの不満が噴出している。</div>
+</div>
+
+<div class="news-card">
+  <h3>7. 新予選フォーマット — Q1・Q2で6台ずつ脱落に変更</h3>
+  <div class="meta">
+    <span class="source">📌 <a href="https://www.formula1.com/en/racing/2026" target="_blank">Formula1.com</a></span>
+    <span class="stars">★★★★★</span>
+  </div>
+  <div class="summary">11チーム22台体制に合わせ、Q1で6台、Q2でさらに6台が脱落する方式に。全24戦中6戦でスプリントレースも開催。</div>
+  <div class="reaction">🗣 グリッド拡大に伴う自然な変更として概ね好意的に受け止められている。</div>
+</div>
+
+<div class="news-card">
+  <h3>8. ターボラグの復活 — レーススタートが劇的に変化</h3>
+  <div class="meta">
+    <span class="source">📌 <a href="https://www.formula1.com/en/latest/article/explained-why-race-starts-will-be-different-in-2026.7ADR4zkfl299T7i3ZYVTYK" target="_blank">Formula1.com</a></span>
+    <span class="stars">★★★★★</span>
+  </div>
+  <div class="summary">MGU-H廃止でターボチャージャーが排気ガスエネルギーのみに依存。2014年以降消えていたターボラグが復活し、スタート時のパワーデリバリーが予測しにくくなる。</div>
+  <div class="reaction">🗣 ファンからは「予測不能なスタートは面白い」と歓迎。安全面の懸念も。</div>
+</div>
+
+<div class="news-card">
+  <h3>9. Apple TVがF1米国独占放映権を取得</h3>
+  <div class="meta">
+    <span class="source">📌 <a href="https://www.apple.com/newsroom/2026/03/formula-1-begins-this-weekend-exclusively-on-apple-tv-in-the-us/" target="_blank">Apple Newsroom</a></span>
+    <span class="stars">★★★★★</span>
+  </div>
+  <div class="summary">2026年シーズンから米国でのF1放映はApple TVの独占に。全セッションがライブ＆オンデマンドで視聴可能。</div>
+  <div class="reaction">🗣 追加サブスクリプション費用のファン負担を懼念する声もある。</div>
+</div>
+
+<div class="news-card">
+  <h3>10. ノリスがディフェンディングチャンピオンとして参戦</h3>
+  <div class="meta">
+    <span class="source">📌 <a href="https://www.formula1.com/en/racing/2026" target="_blank">Formula1.com</a> / <a href="https://www.skysports.com/f1/news/12433/13514599/australian-gp-oscar-piastri-says-mclaren-not-where-we-were-for-2026s-first-race-but-ready-to-play-long-game" target="_blank">Sky Sports</a></span>
+    <span class="stars">★★★★★</span>
+  </div>
+  <div class="summary">ノリスがワールドチャンピオンとして2026年シーズンに。FP2ではピアストリがトップタイム。予選でノリスは6番手に留まり、メルセデスとの差が顕在化。</div>
+  <div class="reaction">🗣 ノリス自身も「最高の車から最悩の車に変わった」とコメント。適応力が問われる。</div>
+</div>
+
+<!-- ==================== VOICES ==================== -->
+<div class="section-title" id="voices"><span class="icon">🎙️</span> ピットレーンボイス — ドライバー＆関係者の生の声</div>
+
+<h3 style="color:var(--text-dim); font-size:.95em; margin-bottom:14px;">ドライバー</h3>
+
+<div class="voice-card">
+  <div class="speaker">マックス・フェルスタッペン（レッドブル）</div>
+  <div class="quote">全然楽しくない、正直に言って。フォーミュラEのステロイド版だ</div>
+  <div class="quote">勝てる車かどうかは僕にとって問題じゃない。キャリアのこの段階では、楽しく走れることも必要だ</div>
+  <div class="quote">完全に空虚な気持ちだ</div>
+  <div class="via">— <a href="https://www.espn.com/f1/story/_/id/47909219/max-verstappen-slams-new-f1-2026-cars-formula-e-steroids-red-bull" target="_blank">ESPN</a> / <a href="https://www.motorsport.com/f1/news/max-verstappen-feeling-completely-empty-about-f1-2026-cars/10803089/" target="_blank">Motorsport.com</a> / <a href="https://www.the-race.com/formula-1/anti-racing-max-verstappen-scathing-f1-2026-car-review/" target="_blank">The Race</a></div>
+</div>
+
+<div class="voice-card">
+  <div class="speaker">ルイス・ハミルトン（フェラーリ）</div>
+  <div class="quote">最高の予選ではなかったが、週末を通して車に手応えを感じている。モチベーションは最高だ</div>
+  <div class="quote">メルセデスの速さが抜け穴によるものだとしたら、FIAに失望する</div>
+  <div class="quote">僕の目標は2026年のワールドタイトルを獲ること</div>
+  <div class="via">— <a href="https://www.skysports.com/f1/news/12474/13515168/lewis-hamilton-ferrari-driver-says-his-goal-is-to-win-2026-f1-world-title-ahead-of-australian-grand-prix" target="_blank">Sky Sports</a> / <a href="https://www.motorsport.com/f1/news/lewis-hamilton-disappointed-in-fia-if-mercedes-supremacy-is-down-to-f1-engine-loophole/10803010/" target="_blank">Motorsport.com</a></div>
+</div>
+
+<div class="voice-card">
+  <div class="speaker">ジョージ・ラッセル（メルセデス）</div>
+  <div class="quote">素晴らしい日だった。ポテンシャルがあることは分かっていたが、最初の土曜日が来るまでは何も分からない</div>
+  <div class="quote">午後に気温が下がると車が本当に生き生きし始めた。キミと一緒にフロントローを独占できて嬉しい</div>
+  <div class="via">— <a href="https://www.fia.com/news/f1-2026-australian-grand-prix-post-qualifying-press-conference-transcript" target="_blank">FIA公式会見</a></div>
+</div>
+
+<div class="voice-card">
+  <div class="speaker">シャルル・ルクレール（フェラーリ）</div>
+  <div class="quote">メルセデスはついに本当の実力を見せた。非常に印象的だ</div>
+  <div class="quote">Q2でエネルギー展開に問題があったが、ガレージに戻ってすぐに修正できた</div>
+  <div class="via">— <a href="https://www.skysports.com/f1/news/12433/13515935/australian-gp-charles-leclerc-claims-mercedes-are-finally-showing-their-hand-after-very-impressive-friday-in-melbourne" target="_blank">Sky Sports</a></div>
+</div>
+
+<div class="voice-card">
+  <div class="speaker">ランド・ノリス（マクラーレン）</div>
+  <div class="quote">史上最高の車から、おそらく最悪の車に乗り換えた</div>
+  <div class="quote">P6は明日に向けてまずまずのポジション。メルセデスとの差は大きく、近づくために進歩が必要</div>
+  <div class="via">— <a href="https://www.formula1.com/en/latest/article/what-the-teams-said-qualifying-in-australia-2026.1AEHjqax6Bpqhazh1MneR7" target="_blank">Formula1.com</a></div>
+</div>
+
+<div class="voice-card">
+  <div class="speaker">オスカー・ピアストリ（マクラーレン）</div>
+  <div class="quote">最初の数戦はかなりカオスになると思う。皆まだ学んでいる段階だ</div>
+  <div class="quote">FP2はFP1よりずっとスムーズだった。去年とは全く違うが、セッション自体はかなり順調だった</div>
+  <div class="via">— <a href="https://www.skysports.com/f1/news/12433/13514599/australian-gp-oscar-piastri-says-mclaren-not-where-we-were-for-2026s-first-race-but-ready-to-play-long-game" target="_blank">Sky Sports</a></div>
+</div>
+
+<div class="voice-card">
+  <div class="speaker">フェルナンド・アロンソ（アストンマーティン）</div>
+  <div class="quote">25周以上連続で走ると、手足がしびれてくる。永続的な神経損傷のリスクがある</div>
+  <div class="via">— <a href="https://www.espn.com/f1/story/_/id/48122433/how-honda-issues-left-aston-martin-crisis-fernando-alonso-adrian-newey-stroll-australian-grand-prix-2026" target="_blank">ESPN</a> / <a href="https://www.the-race.com/formula-1/everything-we-learned-from-extraordinary-newey-honda-briefing/" target="_blank">The Race</a></div>
+</div>
+
+<div class="voice-card">
+  <div class="speaker">イサック・アダール（レッドブル）</div>
+  <div class="quote">FP2はすべてのラップが難しかった。展開もエネルギーも。でも初日でスムーズにいくわけがない、これは普通のことだ</div>
+  <div class="via">— <a href="https://www.formula1.com/en/latest/article/what-the-teams-said-friday-in-australia-2026.3suBx21secmFjUgrLUIV1O" target="_blank">Formula1.com</a></div>
+</div>
+
+<h3 style="color:var(--text-dim); font-size:.95em; margin: 20px 0 14px;">チーム代表・F1首脳</h3>
+
+<div class="voice-card" style="border-left-color: var(--accent-orange);">
+  <div class="speaker">トト・ウォルフ（メルセデス代表）</div>
+  <div class="quote">信頼性が最初の数戦のモットーになる。どのコンポーネントに限界があるか見極める必要がある</div>
+  <div class="quote">中団チームも6ヶ月以内に追いつく可能性がある。全員に平等なチャンスがある</div>
+  <div class="via">— <a href="https://www.gpblog.com/en/news/wolff-and-vasseur-explain-why-2026-f1-midfield-could-soon-catch-top-teams" target="_blank">GPBlog</a></div>
+</div>
+
+<div class="voice-card" style="border-left-color: var(--accent-orange);">
+  <div class="speaker">フレデリック・バスール（フェラーリ代表）</div>
+  <div class="quote">テスト条件は本当の代表値にはならない。メルボルンが対戦相手との競争力を評価する最初の本当の機会だ</div>
+  <div class="quote">パフォーマンスの収束は来るが、何シーズンもかかる</div>
+  <div class="via">— <a href="https://www.gpblog.com/en/news/wolff-and-vasseur-explain-why-2026-f1-midfield-could-soon-catch-top-teams" target="_blank">GPBlog</a></div>
+</div>
+
+<div class="voice-card" style="border-left-color: var(--accent-orange);">
+  <div class="speaker">ステファノ・ドメニカリ（F1 CEO）</div>
+  <div class="quote">我々全員を成長させてくれている素晴らしい世界について悪く言うのは間違っている。ドライビングの進化で、最高のドライバーが最速になれるということだ</div>
+  <div class="via">— <a href="https://www.espn.com/f1/story/_/id/48119618/formula-1-stefano-domenicali-hits-back-max-verstappen-lewis-hamilton-regulation-changes" target="_blank">ESPN</a> / <a href="https://www.motorsport.com/f1/news/stefano-domenicali-premature-f1-2026-criticism-not-right/10802558/" target="_blank">Motorsport.com</a></div>
+</div>
+
+<div class="voice-card" style="border-left-color: var(--accent-orange);">
+  <div class="speaker">エイドリアン・ニューウェイ（アストンマーティン）</div>
+  <div class="quote">ミラーが振動で脱落する状態だ。無力感を感じている</div>
+  <div class="quote">4台のバッテリーを持ち込んだが、2台がコンディショニングの問題で使えない</div>
+  <div class="via">— <a href="https://www.skysports.com/f1/news/12433/13515167/aston-martin-chief-adrian-newey-says-honda-engine-vibration-issue-could-cause-teams-cars-to-retire-from-australian-gp" target="_blank">Sky Sports</a> / <a href="https://www.the-race.com/formula-1/everything-we-learned-from-extraordinary-newey-honda-briefing/" target="_blank">The Race</a></div>
+</div>
+
+<!-- ==================== JAPAN ==================== -->
+<div class="section-title jp-section" id="japan"><span class="icon">🇯🇵</span> 日本関連トピック特別枠</div>
+
+<div class="jp-card">
+  <h3>🏁 角田裕毅 — リザーブドライバーとしてシーズンへ</h3>
+  <div class="meta" style="display:flex; gap:12px; margin-bottom:10px; font-size:.85em; color:var(--text-dim);">
+    <span>📌 <a href="https://www.formula1.com/en/latest/article/f1-is-my-life-tsunoda-reacts-to-red-bulls-driver-decision-and-admits-he-has.7yszQV0USkTS1zu5CPPPDe" target="_blank">Formula1.com</a> / <a href="https://www.motorsport.com/f1/news/yuki-tsunoda-incredibly-tough-loss-red-bull-f1-seat/10782040/" target="_blank">Motorsport.com</a> / <a href="https://www.espn.com/f1/story/_/id/47200907/yuki-tsunoda-disappointed-drop-red-bull-reserve-driver-2026" target="_blank">ESPN</a></span>
+    <span class="stars">★★★★★</span>
+  </div>
+  <div class="summary" style="font-size:.95em; margin-bottom:8px;">角田裕毅は2026年のレースシートを失い、レッドブル＆レーシングブルズのテスト兼リザーブドライバーに。カタールGP後にシート喪失を知らされ、「F1は自分の人生」「信じられないほど辛い」と語りながらも復帰への強い意志を示している。アルボンは「非常に才能がある。F1シートを得るべきドライバー」と支持を表明。<a href="https://racingnews365.com/yuki-tsunoda-promised-f1-return-during-2026-season" target="_blank">RacingNews365</a>は「復帰を約束されている」と報じている。</div>
+  <div class="reaction" style="font-size:.88em; color:var(--text-dim); padding-left:12px; border-left:2px solid var(--jp-accent);">🗣 ファンからは「2025年の成績を考えればシートを失うのは不当」との擁護が圧倒的。<a href="https://www.formula1.com/en/latest/article/tsunoda-to-get-back-behind-wheel-of-f1-car-with-red-bull-in-san-francisco.2afhnSJeDJvw3sy8PGLxZY" target="_blank">サンフランシスコでのデモ走行</a>も発表。</div>
+</div>
+
+<div class="jp-card">
+  <h3>🔧 ホンダ — 2026年パワーユニットの深刻な振動問題</h3>
+  <div class="meta" style="display:flex; gap:12px; margin-bottom:10px; font-size:.85em; color:var(--text-dim);">
+    <span>📌 <a href="https://www.the-race.com/formula-1/honda-f1-2026-engine-abnormal-vibrations-cause-not-identified/" target="_blank">The Race</a> / <a href="https://www.motorsport.com/f1/news/honda-reveals-cause-extremely-challenging-aston-martin-f1-engine-issue/10800733/" target="_blank">Motorsport.com</a> / <a href="https://www.espn.com/f1/story/_/id/48122433/how-honda-issues-left-aston-martin-crisis-fernando-alonso-adrian-newey-stroll-australian-grand-prix-2026" target="_blank">ESPN</a></span>
+    <span class="stars">★★★★★</span>
+  </div>
+  <div class="summary" style="font-size:.95em; margin-bottom:8px;">バーレーンのプレシーズンテストで発覚した振動問題は、根本原因がまだ特定されていない。複数コンポーネントの相互作用が原因の可能性。ホンダ自身も「極めて困難な課題」と認識。FP2ではバッテリー振動が減少傾向にあるとの分析も。鈴鹿GP（第4戦）までに競争力のある状態を目指している。</div>
+  <div class="reaction" style="font-size:.88em; color:var(--text-dim); padding-left:12px; border-left:2px solid var(--jp-accent);">🗣 ニューウェイが「無力感」を訴えたことが大きく報じられる。ホンダとアストンマーティンの初パートナーシップ年であることを考慮する声も。</div>
+</div>
+
+<div class="jp-card">
+  <h3>🏢 TGRハースF1チーム — トヨタがタイトルパートナーに昇格</h3>
+  <div class="meta" style="display:flex; gap:12px; margin-bottom:10px; font-size:.85em; color:var(--text-dim);">
+    <span>📌 <a href="https://www.haasf1team.com/news/toyota-gazoo-racing-set-title-partnership-haas-f1-team-2026" target="_blank">Haas F1 Team公式</a> / <a href="https://www.formula1.com/en/latest/article/toyota-gazoo-racing-to-become-title-sponsors-of-haas-from-2026.7cSSDjuSpWld580YQKVtvh" target="_blank">Formula1.com</a></span>
+    <span class="stars">★★★★★</span>
+  </div>
+  <div class="summary" style="font-size:.95em; margin-bottom:8px;">TGRが2026年からハースのタイトルパートナーに昇格。「People・Product・Pipeline」の3P協力体制を強化。2025年のTPCプログラムでは平川亮、宮田莉朋、坪井翔、小林可夢偉の4名がテスト走行を実施。</div>
+  <div class="reaction" style="font-size:.88em; color:var(--text-dim); padding-left:12px; border-left:2px solid var(--jp-accent);">🗣 2009年のワークス撤退以来の本格的復帰。トヨタの技術力・資金力がハースに与える影響に注目。</div>
+</div>
+
+<div class="jp-card">
+  <h3>👨‍💼 小松礼雄（チーム代表） — 「アグレッシブ」な開発方針</h3>
+  <div class="meta" style="display:flex; gap:12px; margin-bottom:10px; font-size:.85em; color:var(--text-dim);">
+    <span>📌 <a href="https://www.formula1.com/en/latest/article/haas-single-out-big-challenge-of-2026-car-as-komatsu-explains-aggressive.7p3Mno9bSWI74XFb0BQGXK" target="_blank">Formula1.com</a> / <a href="https://www.haasf1team.com/news/vf-26-launch-ayao-komatsu-qa" target="_blank">Haas F1 Team公式</a></span>
+    <span class="stars">★★★★★</span>
+  </div>
+  <div class="summary" style="font-size:.95em; margin-bottom:8px;">VF-26の開発は「アグレッシブ」なアプローチ。バルセロナシェイクダウンの車とオーストラリアGPの車は別物と強調。エネルギーマネジメントを2026年最大の課題に。バンベリー英国拠点のシミュレーターが5月稼働開始予定。</div>
+  <div class="reaction" style="font-size:.88em; color:var(--text-dim); padding-left:12px; border-left:2px solid var(--jp-accent);">🗣 日本人チーム代表としての手腕に注目。トヨタとの関係深化が競争力にどう影響するかがシーズンの焦点。</div>
+</div>
+
+<!-- ==================== DEEP DIVE ==================== -->
+<div class="section-title" id="deepdive"><span class="icon">🔍</span> 深掘りポイント</div>
+<div class="deep-dive">
+  <ol>
+    <li><strong>角田裕毅の復帰シナリオ</strong> — シーズン中にレースシートを取り戻す可能性と、レッドブル契約の制約</li>
+    <li><strong>ホンダPUの技術的課題と鈴鹿への道</strong> — 振動問題の技術的背景と、第4戦に向けた改善の見通し</li>
+    <li><strong>TGRハースの日本人ドライバー育成パイプライン</strong> — 平川亮・宮田莉朋らのF1昇格の可能性</li>
+    <li><strong>メルセデスエンジン抜け穵問題の技術的詳細</strong> — 圧縮比規定の仕組みと、各チームへの影響</li>
+    <li><strong>2026年レギュレーション完全ガイド</strong> — アクティブエアロ、持続可能燃料、予算上限の変更点を網羅的に解説</li>
+    <li><strong>各チーム戦力分析</strong> — FP1〜予選のデータから見る2026年の勢力図</li>
+  </ol>
+</div>
+
+<!-- ==================== TRUST ==================== -->
+<div class="section-title" id="trust"><span class="icon">ℹ️</span> 情報の信頼性について</div>
+<table class="trust-table">
+  <thead><tr><th>評価</th><th>基準</th></tr></thead>
+  <tbody>
+    <tr><td><span class="stars">★★★★★</span></td><td>公式発表（FIA、F1公式、チーム公式、企業発表）</td></tr>
+    <tr><td><span class="stars">★★★★☆</span></td><td>大手スポーツメディア（Motorsport.com、Autosport、The Race、Sky Sports、ESPN、BBC）</td></tr>
+    <tr><td><span class="stars">★★★☆☆</span></td><td>信頼性のあるジャーナリストの報道・分析記事</td></tr>
+    <tr><td><span class="stars">★★☆☆☆</span></td><td>未確認だが複数ソースが報道</td></tr>
+    <tr><td><span class="stars">★☆☆☆☆</span></td><td>噂レベル（参考程度）</td></tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  F1 News Digest — 信頼性の高いソースのみを厳選<br>
+  Generated on 2026-03-08
+</div>
+
+</body>
+</html>
